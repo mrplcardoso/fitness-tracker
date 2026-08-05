@@ -15,4 +15,5 @@ class Base(DeclarativeBase):
 SessionLocal = sessionmaker(bind=engine)
 
 def create_database():
+    import src.models
     Base.metadata.create_all(bind=engine)

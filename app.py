@@ -1,3 +1,9 @@
-from src.models import Food
-from src.database import SessionLocal
-from src.database import create_database
+import streamlit as st
+
+st.set_page_config(
+    page_title="Fitness Tracker",
+    layout="wide",
+)
+
+st.title("Fitness Tracker")
+st.write("Welcome")
