@@ -1,16 +1,20 @@
 from datetime import date
 import streamlit as st
 
+from src.composition.food_composition import FoodComposition
+from src.composition.meal_composition import MealComposition
 from src.view_models.meal_view_model import MealViewModel
 
-st.set_page_config(page_title="Meals")
+food_composition = FoodComposition()
+meal_composition = MealComposition(st.session_state, food_composition.foods)
+meal_model_view = MealViewModel(meal_composition.service, meal_composition.builder)
 
+st.set_page_config(page_title="Meals")
 st.title("Meals")
 
-meal_model_view = MealViewModel(st.session_state)
-foods = meal_model_view.foods
-
 # Meal Information #
+st.divider()
+st.subheader("Meal Information")
 
 with st.form("meal_info"):
     meal_date = st.date_input("Date", value=date.today())
@@ -23,8 +27,8 @@ with st.form("meal_info"):
 st.divider()
 st.subheader("Add food")
 
-selected_food = st.selectbox("Food", foods, format_func=lambda f: f.name)
-grams = st.number_input("Quantity (g)", 100.0, step=1.0)
+selected_food = st.selectbox("Food", meal_model_view.foods(), format_func=lambda f: f.name)
+grams = st.number_input("Quantity (g)", 1.0, step=1.0)
 
 if st.button("Add"):
     meal_model_view.add_food(selected_food, grams)
@@ -57,7 +61,7 @@ if not meal_model_view.is_empty:
     c1, c2 = st.columns(2)
 
     c1.metric("Calories", f"{totals.calories:.0f} kcal")
-    c2.metric("Carbs", f"{totals.carbs:.1f} g")
+    c2.metric("Carbohydrates", f"{totals.carbohydrates:.1f} g")
     c1.metric("Protein", f"{totals.protein:.1f} g")
     c2.metric("Fat", f"{totals.fat:.1f} g")
 else:

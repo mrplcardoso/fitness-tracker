@@ -4,6 +4,6 @@ from dataclasses import dataclass
 class MealSummaryDTO:
 
     calories: float = 0
-    carbs: float = 0
+    carbohydrates: float = 0
     protein: float = 0
     fat: float = 0

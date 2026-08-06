@@ -1,8 +1,5 @@
-from datetime import date
 from sqlalchemy import Float, Integer, String
-from sqlalchemy import Date, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.orm import relationship
 
 from src.database import Base
 
@@ -14,6 +11,6 @@ class Food(Base):
     name: Mapped[str] = mapped_column(String(100), unique=True)
     serving: Mapped[int] = mapped_column(Integer)
     calories: Mapped[float] = mapped_column(Float)
-    carbs: Mapped[float] = mapped_column(Float)
+    carbohydrates: Mapped[float] = mapped_column(Float)
     protein: Mapped[float] = mapped_column(Float)
     fat: Mapped[float] = mapped_column(Float)

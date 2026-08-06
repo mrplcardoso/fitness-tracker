@@ -1,16 +1,16 @@
 from src.builders.meal_builder import MealBuilder
-from src.dto.meal_dto import MealDTO
-from src.repositories.food_repository import FoodRepository
 from src.services.meal_service import MealService
+from src.dto.meal_dto import MealDTO
 
 
 class MealViewModel:
 
-    def __init__(self, session_state):
-        self.foods = FoodRepository().get_all()
-        self.food_map = { food.id: food for food in self.foods }
-        self.builder = MealBuilder(session_state, self.food_map)
-        self.meal_service = MealService()
+    def __init__(self, service: MealService, builder: MealBuilder):
+        self.service = service
+        self.builder = builder
+
+    def foods(self):
+        return list(self.builder.food_map.values())
 
     @property
     def summary(self):
@@ -34,8 +34,6 @@ class MealViewModel:
         self.builder.clear()
 
     def save(self, meal_date, meal_name):
-        dto = MealDTO(date=meal_date, name=meal_name,
-                      items=self.builder.items.copy())
-
-        self.meal_service.save(dto)
+        dto = MealDTO(date=meal_date, name=meal_name, items=self.builder.items.copy())
+        self.service.save(dto)
         self.builder.clear()
