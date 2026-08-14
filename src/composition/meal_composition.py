@@ -4,10 +4,10 @@ from src.builders.meal_builder import MealBuilder
 
 class MealComposition:
 
-    def __init__(self, session_state, food_map):
+    def __init__(self, session_state):
         self._repository = MealRepository()
         self._service = MealService(self._repository)
-        self._builder = MealBuilder(session_state, food_map)
+        self._builder = MealBuilder(session_state)
 
     @property
     def repository(self):

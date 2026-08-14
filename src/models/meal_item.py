@@ -17,5 +17,6 @@ class MealItem(Base):
     meal_id: Mapped[int] = mapped_column(ForeignKey("meals.id"))
     food_id: Mapped[int] = mapped_column(ForeignKey("foods.id"))
     grams: Mapped[float] = mapped_column(Float)
+    
     meal: Mapped["Meal"] = relationship(back_populates="items")
     food: Mapped["Food"] = relationship(lazy="joined")

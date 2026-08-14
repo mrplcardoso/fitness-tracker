@@ -9,9 +9,6 @@ class MealViewModel:
         self.service = service
         self.builder = builder
 
-    def foods(self):
-        return list(self.builder.food_map.values())
-
     @property
     def summary(self):
         return self.builder.summary

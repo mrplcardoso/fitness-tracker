@@ -25,7 +25,7 @@ class MealRepository:
 
             return (session.execute(statement).unique().scalars().all())
 
-    def delete(self, meal_id: int):
+    def delete(self, meal_id: int) -> None:
         with SessionLocal() as session:
             meal = session.get(Meal, meal_id)
             if meal is None:
