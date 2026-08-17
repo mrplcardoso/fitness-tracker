@@ -1,7 +1,6 @@
 from sqlalchemy import Sequence, select
-
 from src.database import SessionLocal
-from src.models.food import Food
+from .model import Food
 
 
 class FoodRepository:

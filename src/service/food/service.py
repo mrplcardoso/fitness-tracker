@@ -1,7 +1,6 @@
 from sqlalchemy import Sequence
-
-from src.models.food import Food
-from src.repositories.food_repository import FoodRepository
+from src.repository.food.model import Food
+from src.repository.food.repository import FoodRepository
 
 
 class FoodService:

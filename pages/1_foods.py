@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-from src.composition.food_composition import FoodComposition
+from src.shared.food_composition import FoodComposition
 
 food_composition = FoodComposition()
 

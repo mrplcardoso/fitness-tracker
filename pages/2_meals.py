@@ -1,13 +1,14 @@
 from datetime import date
 import streamlit as st
 
-from src.composition.food_composition import FoodComposition
-from src.composition.meal_composition import MealComposition
 import src.toolbox.meal_tools as meal_tools
+from src.shared.food_composition import FoodComposition
+from src.shared.meal_composition import MealComposition
+from src.view.meal.builder import MealBuilder
 
 food_composition = FoodComposition()
-meal_composition = MealComposition(st.session_state, food_composition.foods)
-builder = meal_composition.builder
+meal_composition = MealComposition()
+builder = MealBuilder(st.session_state)
 
 st.set_page_config(page_title="Meals")
 st.title("Meals")
@@ -32,7 +33,7 @@ with st.form("meal_info"):
 st.divider()
 st.subheader("Add food")
 
-selected_food = st.selectbox("Food", food_composition.foods, format_func=lambda f: f.name)
+selected_food = st.selectbox("Food", food_composition.foods.values(), format_func=lambda f: f.name)
 grams = st.number_input("Quantity (g)", 1.0, step=1.0)
 
 if st.button("Add"):
@@ -69,7 +70,7 @@ st.subheader("Meal summary")
 
 if not builder.is_empty:
 
-    totals = meal_tools.calculate(builder.items, food_composition.foods)
+    totals = meal_tools.totals(builder.items, food_composition.foods.values())
     c1, c2 = st.columns(2)
 
     c1.metric("Calories", f"{totals.calories:.0f} kcal")
@@ -93,12 +94,14 @@ if c1.button("Save meal", use_container_width=True):
     elif builder.is_empty:
         st.warning("Please add at least one food.")
     else:
-        dto = MealDTO(date=meal_date, name=meal_name, items=self.builder.items.copy())
-        self.service.save(dto)
-        self.builder.clear()
+        builder.name = meal_name
+        builder.date = meal_date
+        meal_composition.service.save(builder)
+
+        builder.clear()
         st.success("Meal saved!")
         st.rerun()
 
 if c2.button("Clear", use_container_width=True):
-    meal_model_view.clear()
+    builder.clear()
     st.rerun()

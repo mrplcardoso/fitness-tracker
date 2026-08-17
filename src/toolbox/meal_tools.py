@@ -1,17 +1,17 @@
-from src.dto.meal_summary import MealSummary
-from src.models.meal_item import MealItem
+from src.repository.food.model import Food
+from src.repository.meal.model import Item
+from src.view.meal.display import MealTotals
 
-def calculate(meal_items: MealItem, foods) -> MealSummary:
+def totals(items: list[Item], foods: list[Food]) -> MealTotals:
+    totals = MealTotals()
 
-    summary = MealSummary()
-    for item in meal_items:
-        
+    for item in items:
         food = foods[item.food_id]
         factor = item.grams / food.serving
 
-        summary.calories += food.calories * factor
-        summary.carbohydrates += food.carbohydrates * factor
-        summary.protein += food.protein * factor
-        summary.fat += food.fat * factor
+        totals.calories += food.calories * factor
+        totals.carbohydrates += food.carbohydrates * factor
+        totals.protein += food.protein * factor
+        totals.fat += food.fat * factor
 
-    return summary
+    return totals

@@ -1,8 +1,6 @@
-from src.repositories.food_repository import FoodRepository
-from src.services.food_service import FoodService
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from src.models.food import Food
+from src.repository.food.model import Food
+from src.repository.food.repository import FoodRepository
+from src.service.food.service import FoodService
 
 
 class FoodComposition:

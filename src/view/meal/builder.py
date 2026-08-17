@@ -1,7 +1,12 @@
-from src.dto.meal_item_dto import MealItemDTO
+from datetime import date
+from display import ItemDisplay
 
 
 class MealBuilder:
+
+    id: int | None
+    name: str
+    date: date
 
     def __init__(self, session_state):
         self.state = session_state
@@ -19,7 +24,7 @@ class MealBuilder:
 
     def add_food(self, food, grams: float) -> None:
         self.state.meal_items.append(
-            MealItemDTO(food_id=food.id, food_name=food.name, grams=grams))
+            ItemDisplay(food_id=food.id, food_name=food.name, grams=grams))
 
     def remove_food(self, index: int) -> None:
         self.state.meal_items.pop(index)
